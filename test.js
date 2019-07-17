@@ -1,4 +1,3 @@
-list = [[32,3],[3,2],[3,2]];
-for (let item of list) {
-    console.log(item[0])
-}
+const fs = require('fs')
+const input = fs.readFileSync('Transactions2013.json', 'utf-8')
+console.log(JSON.parse(input))

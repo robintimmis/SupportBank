@@ -1,0 +1,31 @@
+[2019-07-17T14:27:50.070] [INFO] index.js - Program starts
+[2019-07-17T14:27:50.093] [ERROR] index.js - Amount format for transaction between Ben B and Sam N is invalid
+[2019-07-17T14:27:50.102] [ERROR] index.js - Date format for transaction between Sarah T and Dan W is invalid
+[2019-07-17T14:27:50.134] [WARN] index.js - Classed transactions.
+[2019-07-17T14:28:15.757] [INFO] index.js - Program starts
+[2019-07-17T14:28:15.781] [ERROR] index.js - Amount format for transaction between Ben B and Sam N is invalid
+[2019-07-17T14:28:15.797] [ERROR] index.js - Date format for transaction between Sarah T and Dan W is invalid
+[2019-07-17T14:28:15.824] [WARN] index.js - Classed transactions.
+[2019-07-17T14:28:30.901] [INFO] index.js - Program starts
+[2019-07-17T14:28:30.927] [ERROR] index.js - Amount format for transaction between Ben B and Sam N is invalid
+[2019-07-17T14:28:30.934] [ERROR] index.js - Date format for transaction between Sarah T and Dan W is invalid
+[2019-07-17T14:28:30.956] [WARN] index.js - Classed transactions.
+[2019-07-17T14:28:30.957] [WARN] index.js - {
+  Date: '01/01/2015',
+  From: 'Laura B',
+  To: 'Sarah T',
+  Narrative: 'Misc Morale',
+  Amount: '10.54'
+}
+[2019-07-17T14:29:32.571] [INFO] index.js - Program starts
+[2019-07-17T14:29:32.605] [ERROR] index.js - Amount format for transaction between Ben B and Sam N is invalid
+[2019-07-17T14:29:32.613] [ERROR] index.js - Date format for transaction between Sarah T and Dan W is invalid
+[2019-07-17T14:31:18.965] [INFO] index.js - Program starts
+[2019-07-17T14:31:18.993] [ERROR] index.js - Amount format for transaction between Ben B and Sam N is invalid
+[2019-07-17T14:31:19.090] [ERROR] index.js - Date format for transaction between Sarah T and Dan W is invalid
+[2019-07-17T14:31:24.797] [INFO] index.js - Program starts
+[2019-07-17T14:31:24.828] [ERROR] index.js - Amount format for transaction between Ben B and Sam N is invalid
+[2019-07-17T14:31:24.835] [ERROR] index.js - Date format for transaction between Sarah T and Dan W is invalid
+[2019-07-17T14:38:33.862] [INFO] index.js - Program starts
+[2019-07-17T14:38:33.895] [ERROR] index.js - Amount format for transaction between Ben B and Sam N is invalid
+[2019-07-17T14:38:33.905] [ERROR] index.js - Date format for transaction between Sarah T and Dan W is invalid
