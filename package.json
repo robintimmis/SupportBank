@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/robintimmis/SupportBank/issues"
   },
-  "homepage": "https://github.com/robintimmis/SupportBank#readme"
+  "homepage": "https://github.com/robintimmis/SupportBank#readme",
+  "dependencies": {
+    "csv-parse": "^4.4.3",
+    "csv-parser": "^2.3.0",
+    "moment": "^2.24.0"
+  }
 }
