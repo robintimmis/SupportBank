@@ -1,6 +1,6 @@
-const moment = require('moment')
-const fs = require('fs')
-const parse = require('csv-parse/lib/sync')
+const moment = require('moment');
+const fs = require('fs');
+const parse = require('csv-parse/lib/sync');
 const log4js = require('log4js');
 const readline = require('readline-sync');
 
@@ -22,7 +22,7 @@ class Transaction{
         this.transaction = transaction;
     }
     date() {
-        return moment(this.transaction.Date, 'DD/MM/YYYY');
+        return this.transaction.Date;
     } 
     from() {
         return this.transaction.From;
@@ -34,7 +34,7 @@ class Transaction{
         return this.transaction.Narrative;
     }
     amount() {
-        return parseInt(this.transaction.Amount);
+        return parseFloat(this.transaction.Amount);
     } 
 }
 
@@ -49,35 +49,61 @@ class Account {
         let balance = 0;
         for (let i = 0; i < this.transactions.length; i++) {
             let thisTransaction = this.transactions[i];
-            if (thisTransaction.From == this.name) {
+            if (thisTransaction.from() === this.name) {
                 balance -= thisTransaction.amount();
-
             } else {
                 balance += thisTransaction.amount();
             }
         }
-        return balance;
+        return balance.toFixed(2);
     }
 }
 
-
-parsedTransactions = csvParse();
-validatedTransactions = validate(parsedTransactions);
-classedTransactions = classTransactions(validatedTransactions);
-accounts = listAccounts(classedTransactions);
-classedAccounts = classAccounts(accounts);
+const file = importFile();
+const parsedTransactions = parser(file);
+const validatedTransactions = validate(parsedTransactions);
+const classedTransactions = classTransactions(validatedTransactions);
+const accounts = listAccounts(classedTransactions);
+const classedAccounts = classAccounts(accounts);
 print(classedAccounts);
 
-
-function csvParse() {
-    file = 'DodgyTransactions2015.csv';
-    const input = fs.readFileSync(file, 'utf-8')
-    return parse(input, {
-      columns: true,
-      skip_empty_lines: true
-    })    
+function importFile() {
+    const filename = getStringFromPrompt('Please enter filename:');
+    const contents = fs.readFileSync(filename, 'utf-8');
+    return {
+        name: filename,
+        contents: contents
+    }
 }
 
+function parser(file) {
+    if (file.name.slice(-4) === '.csv') {
+        return csvParse(file.contents);
+    } else if (file.name.slice(-5) === '.json') {
+        return jsonParse(file.contents);
+    }
+}
+
+function csvParse(file) {
+    let parsedFile = parse(file, {
+        columns: true, 
+        skip_empty_lines: true
+    });   
+    for (let i = 0; i < parsedFile.length; i++) {
+        parsedFile[i].Date = moment(parsedFile[i].Date, 'DD/MM/YYYY');
+    }
+    return parsedFile;
+}
+
+function jsonParse(file) {
+    const parsedFile = JSON.parse(file);
+    for (let i = 0; i < parsedFile.length; i++) {
+        parsedFile[i].Date = moment(parsedFile[i].Date);
+        parsedFile[i].To = parsedFile[i].ToAccount;
+        parsedFile[i].From = parsedFile[i].FromAccount;
+    }
+    return parsedFile;
+}
 
 function listAccounts(transactions) {    //takes list of transactions and returns dictionary of accounts; name = key, value = list of transactions
     let people = {};
@@ -87,7 +113,7 @@ function listAccounts(transactions) {    //takes list of transactions and return
             people[person] = [transactions[i]];
         } else {
             people[person].push(transactions[i]);
-        };
+        }
         person = transactions[i].to();
         if (!(person in people)) {
             people[person] = [transactions[i]];
@@ -100,9 +126,9 @@ function listAccounts(transactions) {    //takes list of transactions and return
 
 
 function validate(transactions) {
-    let validTransactions = []
+    let validTransactions = [];
     for (let i = 0; i < transactions.length; i++) {
-        date = moment(transactions[i].Date, 'DD/MM/YYYY');
+        let date = transactions[i].Date;
         if (!(date.isValid())) {
             logger.error(`Date format for transaction between ${transactions[i].From} and ${transactions[i].To} is invalid`);
             console.log(`Date format for transaction between ${transactions[i].From} and ${transactions[i].To} is invalid, entry removed.`);
@@ -119,8 +145,8 @@ function validate(transactions) {
             logger.error(`No narrative given for transaction from ${transactions[i].From} to ${transactions[i].To} on ${transactions[i].Date}.`);
         } else {
             validTransactions.push(transactions[i]);
-        };
-    };
+        }
+    }
     return validTransactions;
 }
 
@@ -131,13 +157,15 @@ function classTransactions(transactions) {
     return transactions;
 }
 
-function classAccounts(accounts) {        // takes dictionary of accounts and returns dictionary where values are of the account class
-    for (person in accounts) {
-        transactions = accounts[person];
+function classAccounts(accounts) {    
+    for (let person in accounts) {
+        let transactions = accounts[person];
         accounts[person] = new Account(person, transactions);
     }
     return accounts;
 }
+
+
 
 
 function print(Accounts) {
@@ -152,27 +180,21 @@ function print(Accounts) {
     }
 }
 
-
-
-
-
-
-
 function printAll(Accounts) {
-    for (person in Accounts) {
+    for (let person in Accounts) {
         console.log(`${person}:     ${Accounts[person].getBalance()}`);
     }
 }
 
 function printAccount(name, Accounts) {
-    transactions = Accounts[name].transactions;
+    let transactions = Accounts[name].transactions;
 
     console.log(`${name}:`);
     for (let transaction of transactions) {
         console.log(`${transaction.date().toString()}    ${transaction.narrative()}`);
     }
-    
 }
+
 
 function getStringFromPrompt(prompt) {
     console.log(prompt);
