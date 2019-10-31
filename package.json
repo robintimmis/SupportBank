@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/robintimmis/SupportBank#readme",
   "dependencies": {
-    "csv-parse": "^4.4.3",
+    "csv-parse": "^4.4.6",
     "csv-parser": "^2.3.0",
     "log4js": "^4.5.1",
     "moment": "^2.24.0",
